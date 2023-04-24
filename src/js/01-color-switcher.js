@@ -1,14 +1,22 @@
+// Quwey
 const bodyQwery = document.querySelector('body');
 const startBtn = document.querySelector('button[data-start]');
 const stopBtn = document.querySelector('button[data-stop]');
 
-startBtn.addEventListener('click', onStart);
+bodyQwery.addEventListener('click', onClick);
 
-function onStart(event) {
-  startBtn.disabled = true;
-  setInterval(() => {
-    bodyQwery.style.backgroundColor = getRandomHexColor();
-  }, 1000);
+let intervalId = null;
+
+function onClick(event) {
+  if (event.target === startBtn) {
+    startBtn.disabled = true;
+    intervalId = setInterval(() => {
+      bodyQwery.style.backgroundColor = getRandomHexColor();
+    }, 1000);
+  } else if (event.target === stopBtn) {
+    startBtn.disabled = false;
+    clearInterval(intervalId);
+  }
 }
 
 function getRandomHexColor() {
