@@ -38,7 +38,7 @@ startBtn.addEventListener('click', onClick);
 
 function onClick(event) {
   startBtn.disabled = true;
-  setInterval(() => {
+  const intervalId = setInterval(() => {
     const targetDate = new Date(input.value);
     const timer = targetDate - Date.now();
     const convertTimer = convertMs(timer);
@@ -46,6 +46,9 @@ function onClick(event) {
     hour.textContent = addLeadingZero(convertTimer.hours);
     minutes.textContent = addLeadingZero(convertTimer.minutes);
     seconds.textContent = addLeadingZero(convertTimer.seconds);
+    if (timer <= 1000) {
+      clearInterval(intervalId);
+    }
   }, 1000);
 
   startBtn.setAttribute('disabled', 'disabled');
