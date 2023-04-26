@@ -1,20 +1,34 @@
 function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
-  if (shouldResolve) {
-    // Fulfill
-  } else {
-    // Reject
-  }
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (shouldResolve) {
+        resolve({ position, delay });
+      } else {
+        reject({ position, delay });
+      }
+    }, delay);
+  });
 }
 
 const form = document.querySelector('.form');
-const delay = document.querySelector('input[name="delay"]');
-const step = document.querySelector('input[name="step"]');
-const amount = document.querySelector('input[name="amount"]');
 const submitBtn = document.querySelector('button[type="submit"]');
+form.addEventListener('submit', onSubmit);
 
-console.log(form);
-console.log(delay);
-console.log(step);
-console.log(amount);
-console.log(submitBtn);
+function onSubmit(event) {
+  event.preventDefault();
+  let position = 0;
+  let DELAY = 0;
+  for (let i = 0; i < form.amount.value; i += 1) {
+    submitBtn.disabled = true;
+    position += 1;
+    DELAY = Number(form.delay.value) + form.step.value * i;
+    createPromise(position, DELAY)
+      .then(({ position, delay }) => {
+        console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
+      })
+      .catch(({ position, delay }) => {
+        console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+      });
+  }
+}
