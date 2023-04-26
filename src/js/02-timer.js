@@ -9,6 +9,8 @@ const hour = document.querySelector('span[data-hours]');
 const minutes = document.querySelector('span[data-minutes]');
 const seconds = document.querySelector('span[data-seconds]');
 
+startBtn.setAttribute('disabled', 'disabled');
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -19,6 +21,13 @@ const options = {
       Notiflix.Notify.failure('Please choose a date in the future');
 
       return;
+    }
+  },
+  onChange(selectedDates) {
+    if (selectedDates[0] > Date.now()) {
+      startBtn.removeAttribute('disabled');
+    } else {
+      startBtn.setAttribute('disabled', 'disabled');
     }
   },
 };
@@ -33,29 +42,28 @@ function onClick(event) {
     const targetDate = new Date(input.value);
     const timer = targetDate - Date.now();
     const convertTimer = convertMs(timer);
-    days.textContent = convertTimer.days.toString().padStart(2, '0');
-    hour.textContent = convertTimer.hours.toString().padStart(2, '0');
-    minutes.textContent = convertTimer.minutes.toString().padStart(2, '0');
-    seconds.textContent = convertTimer.seconds.toString().padStart(2, '0');
-    console.log(convertTimer);
+    days.textContent = addLeadingZero(convertTimer.days);
+    hour.textContent = addLeadingZero(convertTimer.hours);
+    minutes.textContent = addLeadingZero(convertTimer.minutes);
+    seconds.textContent = addLeadingZero(convertTimer.seconds);
+    // console.log(convertTimer);
   }, 1000);
+
+  startBtn.setAttribute('disabled', 'disabled');
 }
 
 function convertMs(ms) {
-  // Number of milliseconds per unit of time
   const second = 1000;
   const minute = second * 60;
   const hour = minute * 60;
   const day = hour * 24;
-
-  // Remaining days
   const days = Math.floor(ms / day);
-  // Remaining hours
   const hours = Math.floor((ms % day) / hour);
-  // Remaining minutes
   const minutes = Math.floor(((ms % day) % hour) / minute);
-  // Remaining seconds
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
-
   return { days, hours, minutes, seconds };
+}
+
+function addLeadingZero(value) {
+  return String(value).padStart(2, '0');
 }
