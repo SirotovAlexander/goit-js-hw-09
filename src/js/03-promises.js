@@ -17,6 +17,7 @@ const submitBtn = document.querySelector('button[type="submit"]');
 form.addEventListener('submit', onSubmit);
 
 function onSubmit(event) {
+  console.log(event.currentTarget);
   event.preventDefault();
   let position = 0;
   let DELAY = 0;
@@ -36,4 +37,5 @@ function onSubmit(event) {
         );
       });
   }
+  event.currentTarget.reset();
 }
