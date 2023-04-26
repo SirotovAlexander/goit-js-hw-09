@@ -46,7 +46,6 @@ function onClick(event) {
     hour.textContent = addLeadingZero(convertTimer.hours);
     minutes.textContent = addLeadingZero(convertTimer.minutes);
     seconds.textContent = addLeadingZero(convertTimer.seconds);
-    // console.log(convertTimer);
   }, 1000);
 
   startBtn.setAttribute('disabled', 'disabled');
