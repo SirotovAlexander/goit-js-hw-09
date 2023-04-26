@@ -49,6 +49,7 @@ function onClick(event) {
   }, 1000);
 
   startBtn.setAttribute('disabled', 'disabled');
+  input.setAttribute('disabled', 'disabled');
 }
 
 function convertMs(ms) {
